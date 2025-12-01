@@ -1,13 +1,14 @@
 import { Metadata } from 'next';
 import { Cairo } from 'next/font/google';
-import { Language, getLanguageDirection, t } from '@/lib/i18n';
+import { Language, getLanguageDirection, isValidLanguage } from '@/lib/i18n';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import '../globals.css';
+import { notFound } from 'next/navigation';
 
 const cairo = Cairo({ subsets: ['arabic', 'latin'] });
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: Language }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
     const { lang } = await params;
 
     return {
@@ -31,17 +32,24 @@ export default async function LangLayout({
     params,
 }: {
     children: React.ReactNode;
-    params: Promise<{ lang: Language }>;
+    params: Promise<{ lang: string }>;
 }) {
     const { lang } = await params;
-    const dir = getLanguageDirection(lang);
+
+    // Validate language
+    if (!isValidLanguage(lang)) {
+        notFound();
+    }
+
+    const validLang = lang as Language;
+    const dir = getLanguageDirection(validLang);
 
     return (
-        <html lang={lang} dir={dir}>
+        <html lang={validLang} dir={dir}>
             <body className={cairo.className}>
-                <Header lang={lang} />
+                <Header lang={validLang} />
                 {children}
-                <Footer lang={lang} />
+                <Footer lang={validLang} />
             </body>
         </html>
     );
