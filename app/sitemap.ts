@@ -6,14 +6,6 @@ import Category from '@/models/Category';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-    await dbConnect();
-
-    // Get all published posts
-    const posts = await Post.find({ status: 'published' }).select('slug updatedAt').lean();
-
-    // Get all categories
-    const categories = await Category.find().select('slug').lean();
-
     // Static pages
     const staticPages = [
         {
@@ -53,6 +45,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.7,
         },
     ];
+
+    // Try to connect to database and get dynamic content
+    // If database is not available (e.g., during build), return static pages only
+    let posts: Array<{ slug: string; updatedAt: Date }> = [];
+    let categories: Array<{ slug: string }> = [];
+
+    try {
+        // Check if MONGODB_URI is available (not available during build)
+        if (process.env.MONGODB_URI) {
+            await dbConnect();
+            
+            // Get all published posts
+            posts = await Post.find({ status: 'published' }).select('slug updatedAt').lean();
+            
+            // Get all categories
+            categories = await Category.find().select('slug').lean();
+        }
+    } catch (error) {
+        // If database connection fails (e.g., during build), continue with static pages only
+        console.warn('Sitemap: Database not available, using static pages only');
+    }
 
     // Category pages
     const categoryPages = categories.map((category) => ({
