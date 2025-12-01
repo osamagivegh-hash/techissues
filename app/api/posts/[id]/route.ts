@@ -14,7 +14,7 @@ export async function GET(
         await dbConnect();
         const { id } = await params;
 
-        const post = await Post.findById(id).populate('category').lean();
+        const post = await Post.findById(id).populate('category').lean() as any;
 
         if (!post) {
             return NextResponse.json({ error: 'المقال غير موجود' }, { status: 404 });
@@ -50,7 +50,7 @@ export async function PUT(
             id,
             data,
             { new: true, runValidators: true }
-        ).populate('category').lean();
+        ).populate('category').lean() as any;
 
         if (!post) {
             return NextResponse.json({ error: 'المقال غير موجود' }, { status: 404 });

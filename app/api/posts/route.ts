@@ -57,8 +57,8 @@ export async function POST(request: NextRequest) {
             data.readingTime = calculateReadingTime(data.content);
         }
 
-        const post = await Post.create(data);
-        const populatedPost = await Post.findById(post._id).populate('category').lean();
+        const post: any = await Post.create(data);
+        const populatedPost = await Post.findById(post._id).populate('category').lean() as any;
 
         return NextResponse.json({
             success: true,

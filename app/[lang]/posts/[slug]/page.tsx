@@ -6,10 +6,10 @@ import dbConnect from '@/lib/db';
 import Post from '@/models/Post';
 import PostCard from '@/components/PostCard';
 import { formatDate } from '@/lib/utils';
-import { Language, t } from '@/lib/i18n';
+import { Language, t, isValidLanguage } from '@/lib/i18n';
 
 interface PostPageProps {
-    params: Promise<{ lang: Language; slug: string }>;
+    params: Promise<{ lang: string; slug: string }>;
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
@@ -80,7 +80,14 @@ async function getPostData(lang: Language, slug: string) {
 
 export default async function PostPage({ params }: PostPageProps) {
     const { lang, slug } = await params;
-    const data = await getPostData(lang, slug);
+
+    // Validate language
+    if (!isValidLanguage(lang)) {
+        notFound();
+    }
+
+    const validLang = lang as Language;
+    const data = await getPostData(validLang, slug);
 
     if (!data) {
         notFound();
@@ -95,12 +102,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 <div className="container-custom py-12">
                     {/* Breadcrumb */}
                     <nav className="mb-6 text-sm text-gray-600">
-                        <Link href={`/${lang}`} className="hover:text-primary-600">
-                            {t(lang, 'home')}
+                        <Link href={`/${validLang}`} className="hover:text-primary-600">
+                            {t(validLang, 'home')}
                         </Link>
                         <span className="mx-2">→</span>
                         <Link
-                            href={`/${lang}/category/${post.category.slug}`}
+                            href={`/${validLang}/category/${post.category.slug}`}
                             className="hover:text-primary-600"
                         >
                             {post.category.name}
@@ -111,7 +118,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
                     {/* Category Badge */}
                     <Link
-                        href={`/${lang}/category/${post.category.slug}`}
+                        href={`/${validLang}/category/${post.category.slug}`}
                         className="inline-block bg-primary-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-primary-700 transition-colors mb-4"
                     >
                         {post.category.name}
@@ -144,7 +151,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                                 />
                             </svg>
-                            {post.readingTime} {t(lang, 'readingTime')}
+                            {post.readingTime} {t(validLang, 'readingTime')}
                         </span>
                     </div>
 
@@ -173,7 +180,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     {post.tags && post.tags.length > 0 && (
                         <div className="mt-12 pt-8 border-t border-gray-200">
                             <h3 className="text-lg font-bold text-gray-900 mb-4">
-                                {lang === 'ar' ? 'الوسوم' : 'Tags'}
+                                {validLang === 'ar' ? 'الوسوم' : 'Tags'}
                             </h3>
                             <div className="flex flex-wrap gap-2">
                                 {post.tags.map((tag: string) => (
@@ -195,11 +202,11 @@ export default async function PostPage({ params }: PostPageProps) {
                 <section className="py-16">
                     <div className="container-custom">
                         <h2 className="text-3xl font-bold text-gray-900 mb-8">
-                            {t(lang, 'relatedPosts')}
+                            {t(validLang, 'relatedPosts')}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {relatedPosts.map((relatedPost: any) => (
-                                <PostCard key={relatedPost._id} post={relatedPost} lang={lang} />
+                                <PostCard key={relatedPost._id} post={relatedPost} lang={validLang} />
                             ))}
                         </div>
                     </div>

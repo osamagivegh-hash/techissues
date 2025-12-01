@@ -6,18 +6,18 @@ import Post from '@/models/Post';
 import Category from '@/models/Category';
 import PostCard from '@/components/PostCard';
 import Pagination from '@/components/Pagination';
-import { Language, t, categorySlugs } from '@/lib/i18n';
+import { Language, t, categorySlugs, isValidLanguage } from '@/lib/i18n';
 
 const POSTS_PER_PAGE = 9;
 
 interface CategoryPageProps {
-    params: Promise<{ lang: Language; slug: string }>;
+    params: Promise<{ lang: string; slug: string }>;
     searchParams: Promise<{ page?: string }>;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
     const { lang, slug } = await params;
-    const categoryName = categorySlugs[slug as keyof typeof categorySlugs]?.[lang] || slug;
+    const categoryName = categorySlugs[slug as keyof typeof categorySlugs]?.[lang as Language] || slug;
 
     return {
         title: `${categoryName} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
@@ -75,16 +75,23 @@ async function getCategoryData(lang: Language, slug: string, page: number) {
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
     const { lang, slug } = await params;
     const { page: pageParam } = await searchParams;
+
+    // Validate language
+    if (!isValidLanguage(lang)) {
+        notFound();
+    }
+
+    const validLang = lang as Language;
     const page = parseInt(pageParam || '1', 10);
 
-    const data = await getCategoryData(lang, slug, page);
+    const data = await getCategoryData(validLang, slug, page);
 
     if (!data) {
         notFound();
     }
 
     const { category, posts, totalPages, totalCount } = data;
-    const categoryName = categorySlugs[slug as keyof typeof categorySlugs]?.[lang] || category.name;
+    const categoryName = categorySlugs[slug as keyof typeof categorySlugs]?.[validLang] || category.name;
 
     return (
         <main className="min-h-screen bg-gray-50">
@@ -93,7 +100,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                 <div className="container-custom">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">{categoryName}</h1>
                     <p className="text-xl text-primary-100">
-                        {totalCount} {lang === 'ar' ? 'مقالة' : 'articles'}
+                        {totalCount} {validLang === 'ar' ? 'مقالة' : 'articles'}
                     </p>
                 </div>
             </section>
@@ -105,7 +112,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                         <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                                 {posts.map((post: any) => (
-                                    <PostCard key={post._id} post={post} lang={lang} />
+                                    <PostCard key={post._id} post={post} lang={validLang} />
                                 ))}
                             </div>
 
@@ -114,15 +121,15 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                                 <Pagination
                                     currentPage={page}
                                     totalPages={totalPages}
-                                    baseUrl={`/${lang}/category/${slug}`}
+                                    baseUrl={`/${validLang}/category/${slug}`}
                                 />
                             )}
                         </>
                     ) : (
                         <div className="text-center py-12">
-                            <p className="text-gray-500 text-lg mb-4">{t(lang, 'noPosts')}</p>
-                            <Link href={`/${lang}`} className="text-primary-600 hover:text-primary-700 font-medium">
-                                {t(lang, 'backToHome')}
+                            <p className="text-gray-500 text-lg mb-4">{t(validLang, 'noPosts')}</p>
+                            <Link href={`/${validLang}`} className="text-primary-600 hover:text-primary-700 font-medium">
+                                {t(validLang, 'backToHome')}
                             </Link>
                         </div>
                     )}

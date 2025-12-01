@@ -48,6 +48,10 @@ async function seed() {
     try {
         console.log('🌱 Starting bilingual seed...');
 
+        if (!MONGODB_URI) {
+            throw new Error('MONGODB_URI is not defined');
+        }
+
         await mongoose.connect(MONGODB_URI);
         console.log('✅ Connected to MongoDB');
 

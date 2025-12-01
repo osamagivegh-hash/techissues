@@ -16,11 +16,19 @@ async function dropIndexes() {
     try {
         console.log('🔧 Dropping old indexes...');
 
+        if (!MONGODB_URI) {
+            throw new Error('MONGODB_URI is not defined');
+        }
+
         await mongoose.connect(MONGODB_URI);
         console.log('✅ Connected to MongoDB');
 
         // Drop all indexes except _id
         const db = mongoose.connection.db;
+
+        if (!db) {
+            throw new Error('Database connection not established');
+        }
 
         try {
             await db.collection('categories').dropIndexes();

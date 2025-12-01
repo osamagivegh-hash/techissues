@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { Language } from '@/lib/i18n';
 
 interface AboutPageProps {
-    params: Promise<{ lang: Language }>;
+    params: Promise<{ lang: string }>;
 }
 
 export async function generateMetadata({ params }: AboutPageProps): Promise<Metadata> {
