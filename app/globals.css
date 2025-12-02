@@ -25,6 +25,28 @@
   [dir="rtl"] .ltr-only {
     direction: ltr;
   }
+
+  /* RTL prose styles */
+  [dir="rtl"] .prose {
+    text-align: right;
+  }
+
+  [dir="rtl"] .prose p,
+  [dir="rtl"] .prose h1,
+  [dir="rtl"] .prose h2,
+  [dir="rtl"] .prose h3,
+  [dir="rtl"] .prose h4,
+  [dir="rtl"] .prose h5,
+  [dir="rtl"] .prose h6,
+  [dir="rtl"] .prose li {
+    text-align: right;
+  }
+
+  [dir="rtl"] .prose ul,
+  [dir="rtl"] .prose ol {
+    padding-right: 1.5rem;
+    padding-left: 0;
+  }
 }
 
 @layer components {

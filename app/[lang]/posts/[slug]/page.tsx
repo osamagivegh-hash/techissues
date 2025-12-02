@@ -168,11 +168,14 @@ export default async function PostPage({ params }: PostPageProps) {
                     </div>
 
                     {/* Excerpt */}
-                    <p className="text-xl text-gray-700 mb-8 leading-relaxed">{post.excerpt}</p>
+                    <p className={`text-xl text-gray-700 mb-8 leading-relaxed ${validLang === 'ar' ? 'text-right' : 'text-left'}`}>
+                        {post.excerpt}
+                    </p>
 
                     {/* Content */}
                     <div
-                        className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 prose-strong:text-gray-900 prose-code:text-primary-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded"
+                        className={`prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 prose-strong:text-gray-900 prose-code:text-primary-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded ${validLang === 'ar' ? 'text-right' : 'text-left'}`}
+                        style={{ direction: validLang === 'ar' ? 'rtl' : 'ltr' }}
                         dangerouslySetInnerHTML={{ __html: post.content }}
                     />
 
