@@ -16,6 +16,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         description: lang === 'ar'
             ? 'مدونة تقنية متخصصة في البرمجة وحل المشاكل التقنية ومراجعات الأجهزة'
             : 'A tech blog specialized in programming, solving technical issues, and device reviews',
+        viewport: {
+            width: 'device-width',
+            initialScale: 1,
+            maximumScale: 5,
+        },
         openGraph: {
             title: lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog',
             description: lang === 'ar'
