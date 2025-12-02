@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { generateSlug } from '@/lib/utils';
+import RichTextEditor from '@/components/RichTextEditor';
 
 interface Category {
     _id: string;
@@ -268,16 +269,13 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
 
                 {/* Content */}
                 <div>
-                    <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                         المحتوى *
                     </label>
-                    <textarea
-                        id="content"
-                        value={formData.content}
-                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                        className="textarea"
-                        rows={15}
-                        required
+                    <RichTextEditor
+                        content={formData.content}
+                        onChange={(html) => setFormData({ ...formData, content: html })}
+                        placeholder="اكتب محتوى المقال هنا..."
                     />
                 </div>
 

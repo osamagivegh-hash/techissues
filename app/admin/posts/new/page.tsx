@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { generateSlug } from '@/lib/utils';
+import RichTextEditor from '@/components/RichTextEditor';
 
 interface Category {
     _id: string;
@@ -220,19 +221,16 @@ export default function NewPostPage() {
 
                 {/* Content */}
                 <div>
-                    <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                         المحتوى *
                     </label>
-                    <textarea
-                        id="content"
-                        value={formData.content}
-                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                        className="textarea"
-                        rows={15}
-                        required
+                    <RichTextEditor
+                        content={formData.content}
+                        onChange={(html) => setFormData({ ...formData, content: html })}
+                        placeholder="اكتب محتوى المقال هنا..."
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                        يمكنك استخدام HTML للتنسيق
+                        استخدم شريط الأدوات للتنسيق
                     </p>
                 </div>
 
