@@ -15,6 +15,7 @@ interface Post {
     title: string;
     slug: string;
     category: string;
+    language: 'ar' | 'en';
     tags: string[];
     excerpt: string;
     content: string;
@@ -34,6 +35,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
         title: '',
         slug: '',
         category: '',
+        language: 'ar' as 'ar' | 'en',
         tags: '',
         excerpt: '',
         content: '',
@@ -71,6 +73,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                 title: post.title,
                 slug: post.slug,
                 category: post.category,
+                language: post.language || 'ar',
                 tags: post.tags.join(', '),
                 excerpt: post.excerpt,
                 content: post.content,
@@ -194,6 +197,23 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                                 {cat.name}
                             </option>
                         ))}
+                    </select>
+                </div>
+
+                {/* Language */}
+                <div>
+                    <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-2">
+                        اللغة *
+                    </label>
+                    <select
+                        id="language"
+                        value={formData.language}
+                        onChange={(e) => setFormData({ ...formData, language: e.target.value as 'ar' | 'en' })}
+                        className="input"
+                        required
+                    >
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
                     </select>
                 </div>
 

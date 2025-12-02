@@ -20,6 +20,7 @@ export default function NewPostPage() {
         title: '',
         slug: '',
         category: '',
+        language: 'ar' as 'ar' | 'en', // Default to Arabic
         tags: '',
         excerpt: '',
         content: '',
@@ -146,6 +147,23 @@ export default function NewPostPage() {
                                 {cat.name}
                             </option>
                         ))}
+                    </select>
+                </div>
+
+                {/* Language */}
+                <div>
+                    <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-2">
+                        اللغة *
+                    </label>
+                    <select
+                        id="language"
+                        value={formData.language}
+                        onChange={(e) => setFormData({ ...formData, language: e.target.value as 'ar' | 'en' })}
+                        className="input"
+                        required
+                    >
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
                     </select>
                 </div>
 
