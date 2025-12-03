@@ -47,6 +47,51 @@
     padding-right: 1.5rem;
     padding-left: 0;
   }
+
+  /* Code block styles - ALWAYS LTR */
+  .prose pre,
+  .prose code,
+  [dir="rtl"] .prose pre,
+  [dir="rtl"] .prose code {
+    direction: ltr !important;
+    text-align: left !important;
+    font-family: 'Courier New', Courier, monospace !important;
+  }
+
+  .prose pre {
+    background-color: #1e293b !important;
+    color: #e2e8f0 !important;
+    padding: 1.5rem !important;
+    border-radius: 0.5rem !important;
+    overflow-x: auto !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  .prose pre code {
+    background-color: transparent !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-size: 0.875rem !important;
+    line-height: 1.7 !important;
+    white-space: pre !important;
+    word-wrap: normal !important;
+  }
+
+  .prose :not(pre)>code {
+    background-color: #f1f5f9 !important;
+    color: #e11d48 !important;
+    padding: 0.2rem 0.4rem !important;
+    border-radius: 0.25rem !important;
+    font-size: 0.875em !important;
+    font-weight: 600 !important;
+    font-family: 'Courier New', Courier, monospace !important;
+  }
+
+  /* Ensure code blocks don't inherit RTL */
+  [dir="rtl"] .prose pre {
+    text-align: left !important;
+    direction: ltr !important;
+  }
 }
 
 @layer components {
