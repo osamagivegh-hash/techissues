@@ -1,0 +1,94 @@
+[1mdiff --git a/lib/utils.ts b/lib/utils.ts[m
+[1mindex 14e21e8..001111b 100644[m
+[1m--- a/lib/utils.ts[m
+[1m+++ b/lib/utils.ts[m
+[36m@@ -1,13 +1,86 @@[m
+[32m+[m[32m/**[m
+[32m+[m[32m * Arabic to English transliteration map[m
+[32m+[m[32m */[m
+[32m+[m[32mconst arabicToEnglish: { [key: string]: string } = {[m
+[32m+[m[32m    'ا': 'a', 'أ': 'a', 'إ': 'e', 'آ': 'a',[m
+[32m+[m[32m    'ب': 'b', 'ت': 't', 'ث': 'th',[m
+[32m+[m[32m    'ج': 'j', 'ح': 'h', 'خ': 'kh',[m
+[32m+[m[32m    'د': 'd', 'ذ': 'th', 'ر': 'r', 'ز': 'z',[m
+[32m+[m[32m    'س': 's', 'ش': 'sh', 'ص': 's', 'ض': 'd',[m
+[32m+[m[32m    'ط': 't', 'ظ': 'z', 'ع': 'a', 'غ': 'gh',[m
+[32m+[m[32m    'ف': 'f', 'ق': 'q', 'ك': 'k', 'ل': 'l',[m
+[32m+[m[32m    'م': 'm', 'ن': 'n', 'ه': 'h', 'و': 'w',[m
+[32m+[m[32m    'ي': 'y', 'ى': 'a', 'ة': 'h', 'ء': '',[m
+[32m+[m[32m    'ئ': 'e', 'ؤ': 'o', 'لا': 'la',[m
+[32m+[m[32m    // Common Arabic words transliteration[m
+[32m+[m[32m    'ال': 'al-',[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m * Transliterate Arabic text to English[m
+[32m+[m[32m */[m
+[32m+[m[32mfunction transliterateArabic(text: string): string {[m
+[32m+[m[32m    let result = '';[m
+[32m+[m[32m    let i = 0;[m
+[32m+[m[41m    [m
+[32m+[m[32m    while (i < text.length) {[m
+[32m+[m[32m        // Check for two-character combinations first (like 'ال')[m
+[32m+[m[32m        const twoChars = text.substring(i, i + 2);[m
+[32m+[m[32m        if (arabicToEnglish[twoChars]) {[m
+[32m+[m[32m            result += arabicToEnglish[twoChars];[m
+[32m+[m[32m            i += 2;[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            const char = text[i];[m
+[32m+[m[32m            result += arabicToEnglish[char] || char;[m
+[32m+[m[32m            i++;[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    return result;[m
+[32m+[m[32m}[m
+[32m+[m
+ /**[m
+  * Generate a URL-friendly slug from a string[m
+[32m+[m[32m * Supports Arabic and English titles[m
+  */[m
+ export function generateSlug(text: string): string {[m
+[31m-    return text[m
+[32m+[m[32m    if (!text || !text.trim()) {[m
+[32m+[m[32m        return '';[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    // First, extract any English words/numbers and tech terms[m
+[32m+[m[32m    const englishParts = text.match(/[a-zA-Z0-9]+/g) || [];[m
+[32m+[m[41m    [m
+[32m+[m[32m    // Check if there are meaningful English parts[m
+[32m+[m[32m    if (englishParts.length > 0 && englishParts.join('').length >= 3) {[m
+[32m+[m[32m        // Use English parts for the slug[m
+[32m+[m[32m        return englishParts[m
+[32m+[m[32m            .join('-')[m
+[32m+[m[32m            .toLowerCase()[m
+[32m+[m[32m            .replace(/--+/g, '-')[m
+[32m+[m[32m            .replace(/^-+|-+$/g, '');[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    // Transliterate Arabic text[m
+[32m+[m[32m    let slug = transliterateArabic(text);[m
+[32m+[m[41m    [m
+[32m+[m[32m    // Clean up the slug[m
+[32m+[m[32m    slug = slug[m
+         .toLowerCase()[m
+         .trim()[m
+[31m-        .replace(/[^\w\s-]/g, '') // Remove special characters[m
+[31m-        .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens[m
+[32m+[m[32m        .replace(/[^\w\s-]/g, '') // Remove remaining special characters[m
+[32m+[m[32m        .replace(/[\s_-]+/g, '-') // Replace spaces with hyphens[m
+[32m+[m[32m        .replace(/--+/g, '-') // Remove consecutive hyphens[m
+         .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens[m
+[32m+[m[41m    [m
+[32m+[m[32m    // If slug is still empty or too short, generate a unique one[m
+[32m+[m[32m    if (!slug || slug.length < 3) {[m
+[32m+[m[32m        const timestamp = Date.now().toString(36);[m
+[32m+[m[32m        const randomStr = Math.random().toString(36).substring(2, 6);[m
+[32m+[m[32m        slug = `post-${timestamp}-${randomStr}`;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    return slug;[m
+ }[m
+ [m
+ /**[m
