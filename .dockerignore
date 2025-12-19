@@ -1,17 +1,62 @@
+# Docker files
 Dockerfile
 .dockerignore
+
+# Dependencies (will be installed fresh)
 node_modules
-npm-debug.log
-README.md
+npm-debug.log*
+yarn-error.log*
+
+# Next.js build output (will be built fresh)
 .next
+out
+
+# Testing
+coverage
+
+# Environment files (will be set in Cloud Run)
+.env
+.env.*
+!.env.example
+
+# Git
 .git
 .gitignore
-.env.local
-.env*.local
+
+# IDE
 .vscode
 .idea
-*.md
 .agent
-MULTILINGUAL_PROGRESS.md
-SESSION_PROGRESS.md
-PROJECT_SUMMARY.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.tar.gz
+*.zip
+deploy-packages/
+techiss-backend-dist/
+
+# Documentation
+*.md
+
+# Scripts not needed in production
+scripts/
+backend/
+
+# AWS specific files
+aws-config.json
+*.pem
+AWSCLIV2.msi
+
+# Nginx configs (handled separately)
+nginx-configs/
+*.conf
+
+# PowerShell scripts
+*.ps1
+
+# Shell scripts
+*.sh
+*.bat

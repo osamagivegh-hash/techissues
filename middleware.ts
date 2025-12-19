@@ -9,8 +9,12 @@ import { defaultLanguage, isValidLanguage } from './lib/i18n';
 
 // ============================================
 // RATE LIMITING (Edge-compatible in-memory store)
+// Cloud-safe: Limited map size to prevent memory abuse detection
 // ============================================
 const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
+const MAX_RATE_LIMIT_ENTRIES = 10000; // Prevent unbounded memory growth
+const CLEANUP_INTERVAL_MS = 60 * 1000; // 1 minute
+let lastCleanup = Date.now();
 
 function getRateLimitConfig(path: string) {
     if (path.includes('/auth/login')) {
@@ -22,19 +26,35 @@ function getRateLimitConfig(path: string) {
     return { windowMs: 60 * 1000, max: 200 }; // 200 per minute for pages
 }
 
+function cleanupRateLimitMap(windowMs: number) {
+    const now = Date.now();
+    // Only cleanup once per minute to reduce CPU usage
+    if (now - lastCleanup < CLEANUP_INTERVAL_MS) return;
+    
+    lastCleanup = now;
+    for (const [k, v] of rateLimitMap.entries()) {
+        if (now - v.timestamp > windowMs) {
+            rateLimitMap.delete(k);
+        }
+    }
+    
+    // Force cleanup oldest entries if map is too large (prevents memory abuse)
+    if (rateLimitMap.size > MAX_RATE_LIMIT_ENTRIES) {
+        const entries = [...rateLimitMap.entries()].sort((a, b) => a[1].timestamp - b[1].timestamp);
+        const toDelete = entries.slice(0, rateLimitMap.size - MAX_RATE_LIMIT_ENTRIES + 1000);
+        for (const [k] of toDelete) {
+            rateLimitMap.delete(k);
+        }
+    }
+}
+
 function checkRateLimit(ip: string, path: string): { allowed: boolean; remaining: number } {
     const config = getRateLimitConfig(path);
     const now = Date.now();
     const key = `${ip}:${path.split('/')[1] || 'root'}`;
 
-    // Cleanup old entries (1% chance per request)
-    if (Math.random() < 0.01) {
-        for (const [k, v] of rateLimitMap.entries()) {
-            if (now - v.timestamp > config.windowMs) {
-                rateLimitMap.delete(k);
-            }
-        }
-    }
+    // Periodic cleanup (deterministic, not random - better for cloud monitoring)
+    cleanupRateLimitMap(config.windowMs);
 
     const entry = rateLimitMap.get(key);
 
