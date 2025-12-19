@@ -26,6 +26,21 @@ yarn-error.log*
 # Local env files
 .env*.local
 .env
+.env.production
+.env.local.bak
+
+# Deployment packages and artifacts
+deploy-packages/
+*.tar.gz
+*.zip
+*.msi
+techiss-backend-dist/
+techiss-*.tar.gz
+techiss-deploy.*
+
+# AWS
+aws-config.json
+AWSCLIV2.msi
 
 # Vercel
 .vercel

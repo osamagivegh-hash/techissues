@@ -51,7 +51,15 @@ export default async function LangLayout({
 
     return (
         <html lang={validLang} dir={dir}>
-            <body className={cairo.className}>
+            <head>
+                {/* Google AdSense Verification Script */}
+                <script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8268189449649056"
+                    crossOrigin="anonymous"
+                />
+            </head>
+            <body className={`${cairo.className} antialiased`}>
                 <Header lang={validLang} />
                 {children}
                 <Footer lang={validLang} />

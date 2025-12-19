@@ -29,7 +29,7 @@ export default function AdminImagesPage() {
 
     const fetchImages = async () => {
         try {
-            const response = await fetch('/api/images');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/images`);
             const data = await response.json();
             setImages(data);
         } catch (err) {
@@ -44,7 +44,7 @@ export default function AdminImagesPage() {
         setError('');
 
         try {
-            const response = await fetch('/api/images', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/images`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export default function AdminImagesPage() {
         }
 
         try {
-            const response = await fetch(`/api/images/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/images/${id}`, {
                 method: 'DELETE',
             });
 

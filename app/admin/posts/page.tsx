@@ -19,14 +19,19 @@ export default function AdminPostsPage() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalPosts, setTotalPosts] = useState(0);
+    const postsPerPage = 20;
 
     useEffect(() => {
-        fetchPosts();
-    }, []);
+        fetchPosts(currentPage);
+    }, [currentPage]);
 
-    const fetchPosts = async () => {
+    const fetchPosts = async (page: number) => {
+        setLoading(true);
         try {
-            const response = await fetch('/api/posts');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/posts?page=${page}&limit=${postsPerPage}`);
             if (!response.ok) {
                 if (response.status === 401) {
                     router.push('/admin/login');
@@ -36,6 +41,8 @@ export default function AdminPostsPage() {
             }
             const data = await response.json();
             setPosts(data.posts);
+            setTotalPages(data.totalPages || 1);
+            setTotalPosts(data.total || 0);
         } catch (err) {
             setError('حدث خطأ في تحميل المقالات');
         } finally {
@@ -49,7 +56,7 @@ export default function AdminPostsPage() {
         }
 
         try {
-            const response = await fetch(`/api/posts/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/posts/${id}`, {
                 method: 'DELETE',
             });
 
@@ -57,7 +64,8 @@ export default function AdminPostsPage() {
                 throw new Error('Failed to delete post');
             }
 
-            setPosts(posts.filter((post) => post._id !== id));
+            // Refetch posts for current page
+            fetchPosts(currentPage);
         } catch (err) {
             alert('حدث خطأ في حذف المقال');
         }
@@ -124,8 +132,8 @@ export default function AdminPostsPage() {
                                         <td className="py-3 px-4">
                                             <span
                                                 className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${post.status === 'published'
-                                                        ? 'bg-green-100 text-green-700'
-                                                        : 'bg-orange-100 text-orange-700'
+                                                    ? 'bg-green-100 text-green-700'
+                                                    : 'bg-orange-100 text-orange-700'
                                                     }`}
                                             >
                                                 {post.status === 'published' ? 'منشور' : 'مسودة'}
@@ -164,6 +172,57 @@ export default function AdminPostsPage() {
                     </div>
                 )}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <div className="flex items-center justify-between bg-white rounded-lg shadow-md p-4">
+                    <div className="text-sm text-gray-600">
+                        عرض {((currentPage - 1) * postsPerPage) + 1} - {Math.min(currentPage * postsPerPage, totalPosts)} من {totalPosts} مقال
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            السابق
+                        </button>
+                        <div className="flex items-center gap-1">
+                            {Array.from({ length: Math.min(totalPages, 10) }, (_, i) => {
+                                let pageNum;
+                                if (totalPages <= 10) {
+                                    pageNum = i + 1;
+                                } else if (currentPage <= 5) {
+                                    pageNum = i + 1;
+                                } else if (currentPage >= totalPages - 4) {
+                                    pageNum = totalPages - 9 + i;
+                                } else {
+                                    pageNum = currentPage - 4 + i;
+                                }
+                                return (
+                                    <button
+                                        key={pageNum}
+                                        onClick={() => setCurrentPage(pageNum)}
+                                        className={`px-3 py-1 text-sm font-medium rounded-md ${currentPage === pageNum
+                                            ? 'bg-primary-600 text-white'
+                                            : 'text-gray-700 hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        {pageNum}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            التالي
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

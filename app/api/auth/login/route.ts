@@ -2,65 +2,68 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { comparePassword, generateToken } from '@/lib/auth';
+import { loginSchema, validateInput, safeParseJson } from '@/lib/security';
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, password } = await request.json();
+        // 1. Safe JSON parsing with size limit
+        const parseResult = await safeParseJson<{ email: string; password: string }>(
+            request,
+            1024 * 10 // 10KB max for login
+        );
 
-        if (!email || !password) {
+        if (!parseResult.success) {
             return NextResponse.json(
-                { error: 'البريد الإلكتروني وكلمة المرور مطلوبان' },
+                { error: parseResult.error || 'طلب غير صالح' },
                 { status: 400 }
             );
         }
 
-        await dbConnect();
+        // 2. Input validation
+        const validation = validateInput(loginSchema, parseResult.data);
 
-        // Normalize email to lowercase for consistent lookup
-        const normalizedEmail = email.toLowerCase().trim();
-        console.log(`Attempting login for email: ${normalizedEmail}`);
-
-        // Find user by email (try exact match first, then case-insensitive regex as fallback)
-        let user = await User.findOne({ email: normalizedEmail }).lean();
-        if (!user) {
-            // Fallback: case-insensitive search
-            user = await User.findOne({ email: { $regex: new RegExp(`^${normalizedEmail}$`, 'i') } }).lean();
+        if (!validation.success) {
+            return NextResponse.json(
+                { error: validation.error || 'بيانات غير صالحة' },
+                { status: 400 }
+            );
         }
 
+        const { email, password } = validation.data!;
+
+        await dbConnect();
+
+        // 3. Find user (case-insensitive, normalized)
+        const user = await User.findOne({
+            email: { $regex: new RegExp(`^${email}$`, 'i') }
+        }).lean();
+
         if (!user) {
-            // Debug: Check if any users exist
-            const userCount = await User.countDocuments();
-            console.error(`Login failed: User not found for email: ${normalizedEmail}`);
-            console.error(`Total users in database: ${userCount}`);
-            if (userCount > 0) {
-                const allUsers = await User.find({}).select('email').lean();
-                console.error(`Existing user emails:`, allUsers.map(u => u.email));
-            }
+            // Use same error message to prevent user enumeration
             return NextResponse.json(
                 { error: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' },
                 { status: 401 }
             );
         }
 
-        // Verify password
+        // 4. Verify password
         const isPasswordValid = await comparePassword(password, user.password);
 
         if (!isPasswordValid) {
-            console.error(`Login failed: Invalid password for email: ${email}`);
             return NextResponse.json(
                 { error: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' },
                 { status: 401 }
             );
         }
 
-        // Generate JWT token
+        // 5. Generate JWT token
         const token = generateToken({
             userId: user._id.toString(),
             email: user.email,
             role: user.role,
         });
 
-        // Create response with token in cookie
+        // 6. Create response with token in cookie
         const response = NextResponse.json({
             success: true,
             user: {
@@ -71,21 +74,23 @@ export async function POST(request: NextRequest) {
             },
         });
 
-        // Set HTTP-only cookie
+        // 7. Set HTTP-only secure cookie
         response.cookies.set('auth-token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'strict', // Changed from 'lax' to 'strict' for better CSRF protection
             maxAge: 60 * 60 * 24 * 7, // 7 days
             path: '/',
         });
 
         return response;
     } catch (error) {
-        console.error('Login error:', error);
+        // Log error without exposing details
+        console.error('Login error occurred');
         return NextResponse.json(
             { error: 'حدث خطأ أثناء تسجيل الدخول' },
             { status: 500 }
         );
     }
 }
+

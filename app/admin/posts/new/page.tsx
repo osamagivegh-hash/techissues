@@ -35,7 +35,7 @@ export default function NewPostPage() {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('/api/categories');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/categories`);
             const data = await response.json();
             setCategories(data);
         } catch (err) {
@@ -57,7 +57,7 @@ export default function NewPostPage() {
         setLoading(true);
 
         try {
-            const response = await fetch('/api/posts', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/posts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

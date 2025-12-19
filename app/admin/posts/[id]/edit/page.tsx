@@ -51,7 +51,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('/api/categories');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/categories`);
             const data = await response.json();
             setCategories(data);
         } catch (err) {
@@ -61,7 +61,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
 
     const fetchPost = async () => {
         try {
-            const response = await fetch(`/api/posts/${id}`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/posts/${id}`);
             if (!response.ok) {
                 if (response.status === 401) {
                     router.push('/admin/login');
@@ -69,17 +69,21 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                 }
                 throw new Error('Failed to fetch post');
             }
-            const post: Post = await response.json();
+            const post = await response.json();
+            // Extract category ID from populated category object
+            const categoryId = typeof post.category === 'object' && post.category !== null
+                ? post.category._id
+                : post.category;
             setFormData({
                 title: post.title,
                 slug: post.slug,
-                category: post.category,
+                category: categoryId || '',
                 language: post.language || 'ar',
-                tags: post.tags.join(', '),
-                excerpt: post.excerpt,
-                content: post.content,
-                coverImage: post.coverImage,
-                status: post.status,
+                tags: Array.isArray(post.tags) ? post.tags.join(', ') : '',
+                excerpt: post.excerpt || '',
+                content: post.content || '',
+                coverImage: post.coverImage || '',
+                status: post.status || 'draft',
             });
         } catch (err) {
             setError('حدث خطأ في تحميل المقال');
@@ -102,7 +106,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
         setSaving(true);
 
         try {
-            const response = await fetch(`/api/posts/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/posts/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ export default function AdminCategoriesPage() {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('/api/categories');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/categories`);
             const data = await response.json();
             setCategories(data);
         } catch (err) {
@@ -44,7 +44,7 @@ export default function AdminCategoriesPage() {
         setError('');
 
         try {
-            const url = editingId ? `/api/categories/${editingId}` : '/api/categories';
+            const url = editingId ? `${process.env.NEXT_PUBLIC_API_URL || ''}/api/categories/${editingId}` : `${process.env.NEXT_PUBLIC_API_URL || ''}/api/categories`;
             const method = editingId ? 'PUT' : 'POST';
 
             const response = await fetch(url, {
@@ -91,7 +91,7 @@ export default function AdminCategoriesPage() {
         }
 
         try {
-            const response = await fetch(`/api/categories/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/categories/${id}`, {
                 method: 'DELETE',
             });
 

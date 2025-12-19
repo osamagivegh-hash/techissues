@@ -7,6 +7,7 @@ import Post from '@/models/Post';
 import PostCard from '@/components/PostCard';
 import { formatDate } from '@/lib/utils';
 import { Language, t, isValidLanguage } from '@/lib/i18n';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 interface PostPageProps {
     params: Promise<{ lang: string; slug: string }>;
@@ -174,9 +175,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
                     {/* Content */}
                     <div
-                        className={`prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 prose-strong:text-gray-900 prose-code:text-primary-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded ${validLang === 'ar' ? 'text-right' : 'text-left'}`}
+                        className={`max-w-none prose prose-lg prose-a:text-primary-600 prose-code:text-primary-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded prose-table:border prose-th:border prose-td:border ${validLang === 'ar' ? 'text-right' : 'text-left'}`}
                         style={{ direction: validLang === 'ar' ? 'rtl' : 'ltr' }}
-                        dangerouslySetInnerHTML={{ __html: post.content }}
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
                     />
 
                     {/* Tags */}

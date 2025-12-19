@@ -1,12 +1,5 @@
 import type { Metadata } from 'next';
-import { Cairo } from 'next/font/google';
 import './globals.css';
-
-const cairo = Cairo({
-    subsets: ['arabic', 'latin'],
-    variable: '--font-cairo',
-    display: 'swap',
-});
 
 export const metadata: Metadata = {
     title: 'مدونة التقنية - حلول البرمجة والمشاكل التقنية',
@@ -26,9 +19,8 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <html lang="ar" dir="rtl" className={cairo.variable}>
-            <body className={`${cairo.className} antialiased`}>{children}</body>
-        </html>
-    );
+    // Note: html and body tags are rendered in [lang]/layout.tsx
+    // This layout just passes children through
+    return children;
 }
+

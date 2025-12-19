@@ -4,12 +4,13 @@ import { getAuthUser } from '@/lib/middleware';
 import dbConnect from '@/lib/db';
 import Post from '@/models/Post';
 import Category from '@/models/Category';
+import Message from '@/models/Message';
 import { formatDate } from '@/lib/utils';
 
 async function getDashboardData() {
     await dbConnect();
 
-    const [totalPosts, publishedPosts, categories, recentPosts] = await Promise.all([
+    const [totalPosts, publishedPosts, categories, recentPosts, unreadMessages] = await Promise.all([
         Post.countDocuments(),
         Post.countDocuments({ status: 'published' }),
         Category.find().lean(),
@@ -18,6 +19,7 @@ async function getDashboardData() {
             .sort({ createdAt: -1 })
             .limit(5)
             .lean(),
+        Message.countDocuments({ isRead: false }),
     ]);
 
     // Get posts count per category
@@ -34,6 +36,7 @@ async function getDashboardData() {
         draftPosts: totalPosts - publishedPosts,
         categoryStats,
         recentPosts: JSON.parse(JSON.stringify(recentPosts)),
+        unreadMessages,
     };
 }
 
@@ -55,7 +58,7 @@ export default async function AdminDashboard() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="bg-white rounded-lg shadow-md p-6">
                     <div className="flex items-center justify-between">
                         <div>
@@ -97,6 +100,23 @@ export default async function AdminDashboard() {
                         </div>
                     </div>
                 </div>
+
+                <Link href="/admin/messages" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <p className="text-gray-600 text-sm mb-1">الرسائل الجديدة</p>
+                            <p className="text-3xl font-bold text-blue-600">{stats.unreadMessages}</p>
+                        </div>
+                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    {stats.unreadMessages > 0 && (
+                        <p className="text-sm text-blue-600 mt-2">اضغط لعرض الرسائل →</p>
+                    )}
+                </Link>
             </div>
 
             {/* Category Stats */}
@@ -141,8 +161,8 @@ export default async function AdminDashboard() {
                                     <td className="py-3 px-4 text-gray-600 text-sm">{post.category.name}</td>
                                     <td className="py-3 px-4">
                                         <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${post.status === 'published'
-                                                ? 'bg-green-100 text-green-700'
-                                                : 'bg-orange-100 text-orange-700'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-orange-100 text-orange-700'
                                             }`}>
                                             {post.status === 'published' ? 'منشور' : 'مسودة'}
                                         </span>
