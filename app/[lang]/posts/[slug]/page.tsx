@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
         }
 
         return {
-            title: `${post.title} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
+            title: `${post.title} - ${lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}`,
             description: post.excerpt,
             openGraph: {
                 title: post.title,

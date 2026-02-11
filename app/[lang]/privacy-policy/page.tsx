@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PrivacyPageProps): Promise<Me
         : (lang === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy');
 
     return {
-        title: `${title} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
+        title: `${title} - ${lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}`,
     };
 }
 

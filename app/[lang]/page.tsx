@@ -15,10 +15,10 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
     const { lang } = await params;
 
     return {
-        title: lang === 'ar' ? 'مدونة التقنية - الرئيسية' : 'Tech Blog - Home',
+        title: lang === 'ar' ? 'التقنية والحياة - الرئيسية' : 'Technology and Life - Home',
         description: lang === 'ar'
-            ? 'اكتشف أحدث المقالات في البرمجة والمشاكل التقنية ومراجعات الأجهزة'
-            : 'Discover the latest articles in programming, tech issues, and device reviews',
+            ? 'اكتشف أحدث المقالات في البرمجة، المشاكل التقنية، مراجعات الأجهزة، الجوانب النفسية، وفوائد الغذاء والرياضة'
+            : 'Discover the latest articles in programming, tech issues, device reviews, psychology, food benefits, and sports',
     };
 }
 
@@ -35,7 +35,14 @@ async function getHomeData(lang: Language) {
         });
 
         // Get latest posts for each category (3 posts per category)
-        const [programmingPosts, techIssuesPosts, deviceReviewsPosts] = await Promise.all([
+        const [
+            programmingPosts,
+            techIssuesPosts,
+            deviceReviewsPosts,
+            psychologyPosts,
+            sportsBenefitsPosts,
+            foodBenefitsPosts
+        ] = await Promise.all([
             Post.find({
                 language: lang,
                 category: categoryMap['programming']?._id,
@@ -65,12 +72,45 @@ async function getHomeData(lang: Language) {
                 .limit(3)
                 .populate('category')
                 .lean(),
+
+            Post.find({
+                language: lang,
+                category: categoryMap['psychology']?._id,
+                status: 'published',
+            })
+                .sort({ createdAt: -1 })
+                .limit(3)
+                .populate('category')
+                .lean(),
+
+            Post.find({
+                language: lang,
+                category: categoryMap['sports-benefits']?._id,
+                status: 'published',
+            })
+                .sort({ createdAt: -1 })
+                .limit(3)
+                .populate('category')
+                .lean(),
+
+            Post.find({
+                language: lang,
+                category: categoryMap['food-benefits']?._id,
+                status: 'published',
+            })
+                .sort({ createdAt: -1 })
+                .limit(3)
+                .populate('category')
+                .lean(),
         ]);
 
         return {
             programmingPosts: JSON.parse(JSON.stringify(programmingPosts)),
             techIssuesPosts: JSON.parse(JSON.stringify(techIssuesPosts)),
             deviceReviewsPosts: JSON.parse(JSON.stringify(deviceReviewsPosts)),
+            psychologyPosts: JSON.parse(JSON.stringify(psychologyPosts)),
+            sportsBenefitsPosts: JSON.parse(JSON.stringify(sportsBenefitsPosts)),
+            foodBenefitsPosts: JSON.parse(JSON.stringify(foodBenefitsPosts)),
         };
     } catch (error) {
         console.error('Error fetching home data:', error);
@@ -78,6 +118,9 @@ async function getHomeData(lang: Language) {
             programmingPosts: [],
             techIssuesPosts: [],
             deviceReviewsPosts: [],
+            psychologyPosts: [],
+            sportsBenefitsPosts: [],
+            foodBenefitsPosts: [],
         };
     }
 }
@@ -91,7 +134,14 @@ export default async function HomePage({ params }: HomePageProps) {
     }
 
     const validLang = lang as Language;
-    const { programmingPosts, techIssuesPosts, deviceReviewsPosts } = await getHomeData(validLang);
+    const {
+        programmingPosts,
+        techIssuesPosts,
+        deviceReviewsPosts,
+        psychologyPosts,
+        sportsBenefitsPosts,
+        foodBenefitsPosts
+    } = await getHomeData(validLang);
 
     return (
         <main className="min-h-screen bg-gray-50">
@@ -101,13 +151,13 @@ export default async function HomePage({ params }: HomePageProps) {
                     <div className="max-w-3xl">
                         <h1 className="text-4xl md:text-5xl font-bold mb-4">
                             {validLang === 'ar'
-                                ? 'مرحباً بك في مدونة التقنية'
-                                : 'Welcome to Tech Blog'}
+                                ? 'مرحباً بك في التقنية والحياة'
+                                : 'Welcome to Technology and Life'}
                         </h1>
                         <p className="text-xl text-primary-100 mb-8">
                             {validLang === 'ar'
-                                ? 'اكتشف أحدث المقالات في عالم البرمجة والمشاكل التقنية ومراجعات الأجهزة'
-                                : 'Discover the latest articles in programming, tech issues, and device reviews'}
+                                ? 'اكتشف التقنية، الصحة النفسية، وفوائد الغذاء والرياضة في مكان واحد'
+                                : 'Discover technology, mental health, food benefits, and sports in one place'}
                         </p>
                         <Link
                             href={`/${validLang}/search`}
@@ -167,8 +217,32 @@ export default async function HomePage({ params }: HomePageProps) {
                 </div>
             </section>
 
-            {/* Device Reviews Section */}
+            {/* Psychology Section */}
             <section className="py-16">
+                <div className="container-custom">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900">{t(validLang, 'psychology')}</h2>
+                        <Link
+                            href={`/${validLang}/category/psychology`}
+                            className="text-primary-600 hover:text-primary-700 font-medium"
+                        >
+                            {t(validLang, 'viewAll')} →
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {psychologyPosts.length > 0 ? (
+                            psychologyPosts.map((post: any) => (
+                                <PostCard key={post._id} post={post} lang={validLang} />
+                            ))
+                        ) : (
+                            <p className="text-gray-500 col-span-full text-center py-8">{t(validLang, 'noPosts')}</p>
+                        )}
+                    </div>
+                </div>
+            </section>
+
+            {/* Device Reviews Section */}
+            <section className="py-16 bg-white">
                 <div className="container-custom">
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-3xl font-bold text-gray-900">{t(validLang, 'deviceReviews')}</h2>
@@ -182,6 +256,54 @@ export default async function HomePage({ params }: HomePageProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {deviceReviewsPosts.length > 0 ? (
                             deviceReviewsPosts.map((post: any) => (
+                                <PostCard key={post._id} post={post} lang={validLang} />
+                            ))
+                        ) : (
+                            <p className="text-gray-500 col-span-full text-center py-8">{t(validLang, 'noPosts')}</p>
+                        )}
+                    </div>
+                </div>
+            </section>
+
+            {/* Sports Benefits Section */}
+            <section className="py-16">
+                <div className="container-custom">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900">{t(validLang, 'sportsBenefits')}</h2>
+                        <Link
+                            href={`/${validLang}/category/sports-benefits`}
+                            className="text-primary-600 hover:text-primary-700 font-medium"
+                        >
+                            {t(validLang, 'viewAll')} →
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {sportsBenefitsPosts.length > 0 ? (
+                            sportsBenefitsPosts.map((post: any) => (
+                                <PostCard key={post._id} post={post} lang={validLang} />
+                            ))
+                        ) : (
+                            <p className="text-gray-500 col-span-full text-center py-8">{t(validLang, 'noPosts')}</p>
+                        )}
+                    </div>
+                </div>
+            </section>
+
+            {/* Food Benefits Section */}
+            <section className="py-16 bg-white">
+                <div className="container-custom">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900">{t(validLang, 'foodBenefits')}</h2>
+                        <Link
+                            href={`/${validLang}/category/food-benefits`}
+                            className="text-primary-600 hover:text-primary-700 font-medium"
+                        >
+                            {t(validLang, 'viewAll')} →
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {foodBenefitsPosts.length > 0 ? (
+                            foodBenefitsPosts.map((post: any) => (
                                 <PostCard key={post._id} post={post} lang={validLang} />
                             ))
                         ) : (

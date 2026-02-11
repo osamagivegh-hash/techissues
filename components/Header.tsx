@@ -40,13 +40,13 @@ export default function Header({ lang }: { lang: Language }) {
                         </div>
                         <div>
                             <h1 className="text-xl font-bold text-gray-900">
-                                {lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}
+                                {t(lang, 'techAndLife')}
                             </h1>
                         </div>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-6">
+                    <nav className="hidden md:flex items-center gap-4 text-sm font-medium">
                         <Link
                             href={`/${lang}`}
                             className="text-gray-700 hover:text-primary-600 transition-colors"
@@ -72,6 +72,24 @@ export default function Header({ lang }: { lang: Language }) {
                             {t(lang, 'deviceReviews')}
                         </Link>
                         <Link
+                            href={`/${lang}/category/psychology`}
+                            className="text-gray-700 hover:text-primary-600 transition-colors"
+                        >
+                            {t(lang, 'psychology')}
+                        </Link>
+                        <Link
+                            href={`/${lang}/category/sports-benefits`}
+                            className="text-gray-700 hover:text-primary-600 transition-colors"
+                        >
+                            {t(lang, 'sportsBenefits')}
+                        </Link>
+                        <Link
+                            href={`/${lang}/category/food-benefits`}
+                            className="text-gray-700 hover:text-primary-600 transition-colors"
+                        >
+                            {t(lang, 'foodBenefits')}
+                        </Link>
+                        <Link
                             href={`/${lang}/search`}
                             className="text-gray-700 hover:text-primary-600 transition-colors"
                         >
@@ -81,7 +99,7 @@ export default function Header({ lang }: { lang: Language }) {
                         {/* Language Switcher */}
                         <Link
                             href={switchLanguage()}
-                            className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
+                            className="px-3 py-1.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-xs font-medium"
                         >
                             {lang === 'ar' ? 'EN' : 'عربي'}
                         </Link>
@@ -129,8 +147,8 @@ export default function Header({ lang }: { lang: Language }) {
 
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
-                    <nav className="md:hidden py-4 border-t border-gray-200 animate-fadeIn">
-                        <div className="flex flex-col gap-2">
+                    <nav className="md:hidden py-4 border-t border-gray-200 animate-fadeIn h-[calc(100vh-4rem)] overflow-y-auto">
+                        <div className="flex flex-col gap-2 pb-20">
                             <Link
                                 href={`/${lang}`}
                                 className="px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors rounded-lg"
@@ -158,6 +176,27 @@ export default function Header({ lang }: { lang: Language }) {
                                 onClick={closeMobileMenu}
                             >
                                 {t(lang, 'deviceReviews')}
+                            </Link>
+                            <Link
+                                href={`/${lang}/category/psychology`}
+                                className="px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors rounded-lg"
+                                onClick={closeMobileMenu}
+                            >
+                                {t(lang, 'psychology')}
+                            </Link>
+                            <Link
+                                href={`/${lang}/category/sports-benefits`}
+                                className="px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors rounded-lg"
+                                onClick={closeMobileMenu}
+                            >
+                                {t(lang, 'sportsBenefits')}
+                            </Link>
+                            <Link
+                                href={`/${lang}/category/food-benefits`}
+                                className="px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors rounded-lg"
+                                onClick={closeMobileMenu}
+                            >
+                                {t(lang, 'foodBenefits')}
                             </Link>
                             <Link
                                 href={`/${lang}/search`}

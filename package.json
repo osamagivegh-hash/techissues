@@ -9,7 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
-    "seed:quality": "tsx scripts/seed-quality.ts"
+    "seed:quality": "tsx scripts/seed-quality.ts",
+    "seed:expanded": "tsx scripts/seed-expanded.ts",
+    "seed:new-posts": "tsx scripts/seed-new-posts.ts",
+    "seed:state-management": "tsx scripts/seed-state-management.ts"
   },
   "keywords": [],
   "author": "",

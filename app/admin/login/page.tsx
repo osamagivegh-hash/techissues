@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
                         <span className="text-white font-bold text-2xl">ت</span>
                     </div>
                     <h1 className="text-2xl font-bold text-gray-900">لوحة التحكم</h1>
-                    <p className="text-gray-600 mt-2">مدونة التقنية</p>
+                    <p className="text-gray-600 mt-2">التقنية والحياة</p>
                 </div>
 
                 {/* Error Message */}

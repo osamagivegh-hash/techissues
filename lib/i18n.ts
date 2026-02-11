@@ -19,6 +19,10 @@ export const translations = {
         programming: 'البرمجة',
         techIssues: 'المشاكل التقنية',
         deviceReviews: 'مراجعات الأجهزة',
+        psychology: 'الجوانب النفسية',
+        sportsBenefits: 'فوائد الرياضة',
+        foodBenefits: 'فوائد الأطعمة',
+        techAndLife: 'التقنية والحياة',
         search: 'بحث',
         about: 'من نحن',
         contact: 'اتصل بنا',
@@ -40,6 +44,10 @@ export const translations = {
         programming: 'Programming',
         techIssues: 'Tech Issues',
         deviceReviews: 'Device Reviews',
+        psychology: 'Psychological Aspects',
+        sportsBenefits: 'Sports Benefits',
+        foodBenefits: 'Food Benefits',
+        techAndLife: 'Technology and Life',
         search: 'Search',
         about: 'About',
         contact: 'Contact',
@@ -75,5 +83,17 @@ export const categorySlugs = {
     'device-reviews': {
         ar: 'مراجعات الأجهزة',
         en: 'Device Reviews',
+    },
+    psychology: {
+        ar: 'الجوانب النفسية',
+        en: 'Psychological Aspects',
+    },
+    'sports-benefits': {
+        ar: 'فوائد الرياضة',
+        en: 'Sports Benefits',
+    },
+    'food-benefits': {
+        ar: 'فوائد الأطعمة',
+        en: 'Food Benefits',
     },
 };

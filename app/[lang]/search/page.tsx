@@ -13,10 +13,10 @@ export async function generateMetadata({ params }: SearchPageProps): Promise<Met
     const { lang } = await params;
 
     return {
-        title: `${t(lang, 'search')} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
+        title: `${t(lang, 'search')} - ${lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}`,
         description: lang === 'ar'
-            ? 'ابحث عن مقالات في البرمجة والمشاكل التقنية ومراجعات الأجهزة'
-            : 'Search for articles in programming, tech issues, and device reviews',
+            ? 'ابحث في مقالات التقنية والحياة'
+            : 'Search for articles in Technology and Life',
     };
 }
 

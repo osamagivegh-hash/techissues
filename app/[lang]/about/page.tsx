@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: AboutPageProps): Promise<Meta
         : (lang === 'ar' ? 'من نحن' : 'About Us');
 
     return {
-        title: `${title} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
+        title: `${title} - ${lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}`,
         description: lang === 'ar'
-            ? 'تعرف على مدونة التقنية ورسالتنا في تقديم محتوى تقني عربي عالي الجودة'
-            : 'Learn about Tech Blog and our mission to deliver high-quality tech content',
+            ? 'تعرف على مدونة التقنية والحياة ورسالتنا في تقديم محتوى شامل ومفيد'
+            : 'Learn about Technology and Life Blog and our mission to deliver comprehensive and useful content',
     };
 }
 

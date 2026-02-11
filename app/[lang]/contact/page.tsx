@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
     const { lang } = await params;
 
     return {
-        title: `${lang === 'ar' ? 'اتصل بنا' : 'Contact Us'} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
+        title: `${lang === 'ar' ? 'اتصل بنا' : 'Contact Us'} - ${lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}`,
         description: lang === 'ar'
             ? 'تواصل معنا لأي استفسارات أو اقتراحات. نحن نقدر تعليقاتكم!'
             : 'Contact us for any inquiries or suggestions. We value your feedback!',

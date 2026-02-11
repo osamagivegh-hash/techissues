@@ -11,12 +11,12 @@ export default function Footer({ lang }: { lang: Language }) {
                     {/* About */}
                     <div>
                         <h3 className="text-white font-bold text-lg mb-4">
-                            {lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}
+                            {lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}
                         </h3>
                         <p className="text-sm">
                             {lang === 'ar'
-                                ? 'مدونة متخصصة في البرمجة والمشاكل التقنية ومراجعات الأجهزة'
-                                : 'A blog specialized in programming, technical issues, and device reviews'}
+                                ? 'مدونة التقنية والحياة: كل ما يهمك في عالم البرمجة، المشاكل التقنية، مراجعات الأجهزة، بالإضافة إلى الجوانب النفسية وفوائد الغذاء والرياضة.'
+                                : 'Technology and Life Blog: Everything about programming, tech issues, device reviews, plus psychological aspects, food benefits, and sports.'}
                         </p>
                     </div>
 
@@ -74,6 +74,30 @@ export default function Footer({ lang }: { lang: Language }) {
                                     {t(lang, 'deviceReviews')}
                                 </Link>
                             </li>
+                            <li>
+                                <Link
+                                    href={`/${lang}/category/psychology`}
+                                    className="hover:text-primary-400 transition-colors"
+                                >
+                                    {t(lang, 'psychology')}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href={`/${lang}/category/sports-benefits`}
+                                    className="hover:text-primary-400 transition-colors"
+                                >
+                                    {t(lang, 'sportsBenefits')}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href={`/${lang}/category/food-benefits`}
+                                    className="hover:text-primary-400 transition-colors"
+                                >
+                                    {t(lang, 'foodBenefits')}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
@@ -103,7 +127,7 @@ export default function Footer({ lang }: { lang: Language }) {
                 {/* Copyright */}
                 <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
                     <p>
-                        &copy; {currentYear} {lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}.{' '}
+                        &copy; {currentYear} {lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}.{' '}
                         {lang === 'ar' ? 'جميع الحقوق محفوظة' : 'All rights reserved'}.
                     </p>
                 </div>

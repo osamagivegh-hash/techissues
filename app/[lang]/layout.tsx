@@ -12,20 +12,20 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     const { lang } = await params;
 
     return {
-        title: lang === 'ar' ? 'مدونة التقنية - برمجة ومشاكل تقنية ومراجعات أجهزة' : 'Tech Blog - Programming, Tech Issues & Device Reviews',
+        title: lang === 'ar' ? 'التقنية والحياة - برمجة، صحة نفسية، وغذاء' : 'Technology and Life - Tech, Psychology, & Health',
         description: lang === 'ar'
-            ? 'مدونة تقنية متخصصة في البرمجة وحل المشاكل التقنية ومراجعات الأجهزة'
-            : 'A tech blog specialized in programming, solving technical issues, and device reviews',
+            ? 'مدونة التقنية والحياة: كل ما يهمك في عالم البرمجة، المشاكل التقنية، مراجعات الأجهزة، بالإضافة إلى الجوانب النفسية وفوائد الغذاء والرياضة.'
+            : 'Technology and Life Blog: Everything about programming, tech issues, device reviews, plus psychological aspects, food benefits, and sports.',
         viewport: {
             width: 'device-width',
             initialScale: 1,
             maximumScale: 5,
         },
         openGraph: {
-            title: lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog',
+            title: lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life',
             description: lang === 'ar'
-                ? 'مدونة تقنية متخصصة في البرمجة وحل المشاكل التقنية ومراجعات الأجهزة'
-                : 'A tech blog specialized in programming, solving technical issues, and device reviews',
+                ? 'مدونة التقنية والحياة: كل ما يهمك في عالم البرمجة، المشاكل التقنية، مراجعات الأجهزة، بالإضافة إلى الجوانب النفسية وفوائد الغذاء والرياضة.'
+                : 'Technology and Life Blog: Everything about programming, tech issues, device reviews, plus psychological aspects, food benefits, and sports.',
             type: 'website',
             locale: lang === 'ar' ? 'ar_SA' : 'en_US',
         },

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: TermsPageProps): Promise<Meta
         : (lang === 'ar' ? 'شروط الاستخدام' : 'Terms of Use');
 
     return {
-        title: `${title} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
+        title: `${title} - ${lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}`,
     };
 }
 

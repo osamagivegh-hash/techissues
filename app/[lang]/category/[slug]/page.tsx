@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     const categoryName = categorySlugs[slug as keyof typeof categorySlugs]?.[lang as Language] || slug;
 
     return {
-        title: `${categoryName} - ${lang === 'ar' ? 'مدونة التقنية' : 'Tech Blog'}`,
+        title: `${categoryName} - ${lang === 'ar' ? 'التقنية والحياة' : 'Technology and Life'}`,
         description: lang === 'ar'
             ? `تصفح جميع مقالات ${categoryName}`
             : `Browse all ${categoryName} articles`,

@@ -76,6 +76,9 @@ async function seed() {
             { name: 'البرمجة', slug: 'programming', language: 'ar' },
             { name: 'المشاكل التقنية', slug: 'tech-issues', language: 'ar' },
             { name: 'مراجعات الأجهزة', slug: 'device-reviews', language: 'ar' },
+            { name: 'الجوانب النفسية', slug: 'psychology', language: 'ar' },
+            { name: 'فوائد الرياضة', slug: 'sports-benefits', language: 'ar' },
+            { name: 'فوائد الأطعمة', slug: 'food-benefits', language: 'ar' },
         ]);
 
         // Create English categories
@@ -83,6 +86,9 @@ async function seed() {
             { name: 'Programming', slug: 'programming', language: 'en' },
             { name: 'Tech Issues', slug: 'tech-issues', language: 'en' },
             { name: 'Device Reviews', slug: 'device-reviews', language: 'en' },
+            { name: 'Psychological Aspects', slug: 'psychology', language: 'en' },
+            { name: 'Sports Benefits', slug: 'sports-benefits', language: 'en' },
+            { name: 'Food Benefits', slug: 'food-benefits', language: 'en' },
         ]);
 
         console.log('📁 Created categories (AR + EN)');
@@ -209,6 +215,49 @@ async function seed() {
                 status: 'published',
                 readingTime: 6,
             },
+
+            // Psychology - Arabic
+            {
+                title: 'تأثير التكنولوجيا على الصحة النفسية',
+                slug: 'tech-mental-health',
+                language: 'ar',
+                category: arCategories[3]._id,
+                tags: ['صحة نفسية', 'تكنولوجيا', 'حياة'],
+                excerpt: 'كيف تؤثر وسائل التواصل الاجتماعي والشاشات على صحتنا النفسية وكيف نحمي أنفسنا.',
+                content: `<h2>التأثيرات السلبية</h2><p>يمكن أن يؤدي الاستخدام المفرط للتكنولوجيا إلى القلق والاكتئاب.</p>
+<h2>نصائح للحد من التأثير</h2><ul><li>تحديد أوقات لاستخدام الهاتف</li><li>الابتعاد عن الشاشات قبل النوم</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=800',
+                status: 'published',
+                readingTime: 6,
+            },
+
+            // Sports Benefits - Arabic
+            {
+                title: 'فوائد الجري الصباحي للصحة',
+                slug: 'morning-run-benefits',
+                language: 'ar',
+                category: arCategories[4]._id,
+                tags: ['رياضة', 'صحة', 'جري'],
+                excerpt: 'اكتشف كيف يمكن للجري في الصباح الباكر أن يحسن نشاطك اليومي وصحتك العامة.',
+                content: `<h2>تنشيط الدورة الدموية</h2><p>الجري الصباحي يساعد على تدفق الدم وتحسين صحة القلب.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
+
+            // Food Benefits - Arabic
+            {
+                title: 'فوائد الشاي الأخضر للدماغ',
+                slug: 'green-tea-benefits',
+                language: 'ar',
+                category: arCategories[5]._id,
+                tags: ['تغذية', 'صحة', 'شاي'],
+                excerpt: 'لماذا يعتبر الشاي الأخضر مشروبًا مثاليًا لتحسين التركيز والذاكرة.',
+                content: `<h2>مضادات الأكسدة</h2><p>يحتوي الشاي الأخضر على مركبات تحمي خلايا الدماغ.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=800',
+                status: 'published',
+                readingTime: 4,
+            },
         ];
 
         // English Posts
@@ -332,6 +381,49 @@ async function seed() {
                 coverImage: 'https://images.unsplash.com/photo-1545127398-14699f92334b?w=800',
                 status: 'published',
                 readingTime: 6,
+            },
+
+            // Psychology - English
+            {
+                title: 'Impact of Technology on Mental Health',
+                slug: 'tech-mental-health-en',
+                language: 'en',
+                category: enCategories[3]._id,
+                tags: ['Mental Health', 'Technology', 'Life'],
+                excerpt: 'How social media and screens affect our mental well-being and how to protect ourselves.',
+                content: `<h2>Negative Effects</h2><p>Excessive tech use can lead to anxiety and depression.</p>
+<h2>Tips</h2><ul><li>Limit screen time</li><li>Avoid screens before bed</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=800',
+                status: 'published',
+                readingTime: 6,
+            },
+
+            // Sports Benefits - English
+            {
+                title: 'Benefits of Morning Running',
+                slug: 'morning-run-benefits-en',
+                language: 'en',
+                category: enCategories[4]._id,
+                tags: ['Sports', 'Health', 'Running'],
+                excerpt: 'Discover how an early morning run can improve your daily energy and overall health.',
+                content: `<h2>Blood Circulation</h2><p>Morning runs help blood flow and improve heart health.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
+
+            // Food Benefits - English
+            {
+                title: 'Green Tea Benefits for Brain',
+                slug: 'green-tea-benefits-en',
+                language: 'en',
+                category: enCategories[5]._id,
+                tags: ['Nutrition', 'Health', 'Tea'],
+                excerpt: 'Why green tea is the perfect drink for improving focus and memory.',
+                content: `<h2>Antioxidants</h2><p>Green tea contains compounds that protect brain cells.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=800',
+                status: 'published',
+                readingTime: 4,
             },
         ];
 
