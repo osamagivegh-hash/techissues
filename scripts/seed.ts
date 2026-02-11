@@ -230,6 +230,32 @@ async function seed() {
                 status: 'published',
                 readingTime: 6,
             },
+            {
+                title: 'فن إدارة التوتر والضغوط اليومية',
+                slug: 'stress-management',
+                language: 'ar',
+                category: arCategories[3]._id,
+                tags: ['توتر', 'صحة نفسية', 'استرخاء'],
+                excerpt: 'تقنيات فعالة للتعامل مع التوتر والضغوط النفسية في الحياة اليومية.',
+                content: `<h2>أسباب التوتر</h2><p>ضغوط العمل، المشاكل المالية، والعلاقات الشخصية.</p>
+<h2>تقنيات التعامل</h2><ul><li>التنفس العميق</li><li>النشاط البدني</li><li>تنظيم الوقت</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800',
+                status: 'published',
+                readingTime: 6,
+            },
+            {
+                title: 'أهمية النوم الجيد للصحة النفسية',
+                slug: 'sleep-mental-health',
+                language: 'ar',
+                category: arCategories[3]._id,
+                tags: ['نوم', 'صحة نفسية', 'راحة'],
+                excerpt: 'العلاقة الوثيقة بين جودة النوم والصحة النفسية وكيفية تحسين نومك.',
+                content: `<h2>فوائد النوم</h2><p>تحسين المزاج، تقوية الذاكرة، تقليل القلق والاكتئاب.</p>
+<h2>نصائح لنوم أفضل</h2><ul><li>تجنب الكافيين بعد 4 مساءً</li><li>أطفئ الأجهزة قبل النوم بساعة</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
 
             // Sports Benefits - Arabic
             {
@@ -241,6 +267,32 @@ async function seed() {
                 excerpt: 'اكتشف كيف يمكن للجري في الصباح الباكر أن يحسن نشاطك اليومي وصحتك العامة.',
                 content: `<h2>تنشيط الدورة الدموية</h2><p>الجري الصباحي يساعد على تدفق الدم وتحسين صحة القلب.</p>`,
                 coverImage: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
+            {
+                title: 'تمارين القوة وبناء العضلات',
+                slug: 'strength-training',
+                language: 'ar',
+                category: arCategories[4]._id,
+                tags: ['تمارين قوة', 'عضلات', 'لياقة'],
+                excerpt: 'أهمية تمارين القوة لجميع الأعمار وكيفية البدء بشكل صحيح.',
+                content: `<h2>فوائد تمارين القوة</h2><p>زيادة كتلة العضلات، تقوية العظام، وتحسين التمثيل الغذائي.</p>
+<h2>تمارين أساسية</h2><ul><li>القرفصاء (Squats)</li><li>تمرين الضغط</li><li>البلانك</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800',
+                status: 'published',
+                readingTime: 6,
+            },
+            {
+                title: 'اليوغا: التوازن بين الجسم والعقل',
+                slug: 'yoga-benefits',
+                language: 'ar',
+                category: arCategories[4]._id,
+                tags: ['يوغا', 'مرونة', 'استرخاء'],
+                excerpt: 'كيف تساعد اليوغا في تحسين الصحة الجسدية والنفسية.',
+                content: `<h2>الفوائد الجسدية</h2><p>زيادة المرونة، تحسين التوازن، وتقوية العضلات.</p>
+<h2>الفوائد النفسية</h2><p>تقليل التوتر، تحسين التركيز، وزيادة الوعي الذاتي.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800',
                 status: 'published',
                 readingTime: 5,
             },
@@ -257,6 +309,32 @@ async function seed() {
                 coverImage: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=800',
                 status: 'published',
                 readingTime: 4,
+            },
+            {
+                title: 'فوائد الخضروات الورقية الخضراء',
+                slug: 'leafy-greens-benefits',
+                language: 'ar',
+                category: arCategories[5]._id,
+                tags: ['خضروات', 'فيتامينات', 'صحة'],
+                excerpt: 'لماذا يجب أن تتناول الخضروات الورقية يومياً وما هي أفضل الأنواع.',
+                content: `<h2>القيمة الغذائية</h2><p>غنية بالفيتامينات K, A, C والمعادن والألياف.</p>
+<h2>أفضل الأنواع</h2><ul><li>السبانخ</li><li>الكرنب (Kale)</li><li>الجرجير</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
+            {
+                title: 'البروتينات: أنواعها وفوائدها',
+                slug: 'protein-benefits',
+                language: 'ar',
+                category: arCategories[5]._id,
+                tags: ['بروتين', 'تغذية', 'عضلات'],
+                excerpt: 'دليلك الشامل للبروتينات: مصادرها، فوائدها، والكمية المناسبة يومياً.',
+                content: `<h2>فوائد البروتين</h2><p>بناء العضلات، تقوية المناعة، والشعور بالشبع.</p>
+<h2>مصادر البروتين</h2><p>حيوانية: لحوم، دجاج، أسماك. نباتية: بقوليات، مكسرات.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=800',
+                status: 'published',
+                readingTime: 6,
             },
         ];
 
@@ -397,6 +475,32 @@ async function seed() {
                 status: 'published',
                 readingTime: 6,
             },
+            {
+                title: 'The Art of Stress Management',
+                slug: 'stress-management-en',
+                language: 'en',
+                category: enCategories[3]._id,
+                tags: ['Stress', 'Mental Health', 'Relaxation'],
+                excerpt: 'Effective techniques for dealing with stress and daily pressures.',
+                content: `<h2>Stress Causes</h2><p>Work pressures, financial problems, and personal relationships.</p>
+<h2>Management Techniques</h2><ul><li>Deep breathing</li><li>Physical activity</li><li>Time management</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800',
+                status: 'published',
+                readingTime: 6,
+            },
+            {
+                title: 'Importance of Good Sleep for Mental Health',
+                slug: 'sleep-mental-health-en',
+                language: 'en',
+                category: enCategories[3]._id,
+                tags: ['Sleep', 'Mental Health', 'Rest'],
+                excerpt: 'The close relationship between sleep quality and mental health.',
+                content: `<h2>Sleep Benefits</h2><p>Improved mood, stronger memory, reduced anxiety and depression.</p>
+<h2>Better Sleep Tips</h2><ul><li>Avoid caffeine after 4 PM</li><li>Turn off devices an hour before bed</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
 
             // Sports Benefits - English
             {
@@ -408,6 +512,32 @@ async function seed() {
                 excerpt: 'Discover how an early morning run can improve your daily energy and overall health.',
                 content: `<h2>Blood Circulation</h2><p>Morning runs help blood flow and improve heart health.</p>`,
                 coverImage: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
+            {
+                title: 'Strength Training and Muscle Building',
+                slug: 'strength-training-en',
+                language: 'en',
+                category: enCategories[4]._id,
+                tags: ['Strength Training', 'Muscles', 'Fitness'],
+                excerpt: 'The importance of strength training for all ages and how to start correctly.',
+                content: `<h2>Benefits</h2><p>Increased muscle mass, stronger bones, and improved metabolism.</p>
+<h2>Basic Exercises</h2><ul><li>Squats</li><li>Push-ups</li><li>Plank</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800',
+                status: 'published',
+                readingTime: 6,
+            },
+            {
+                title: 'Yoga: Balance Between Body and Mind',
+                slug: 'yoga-benefits-en',
+                language: 'en',
+                category: enCategories[4]._id,
+                tags: ['Yoga', 'Flexibility', 'Relaxation'],
+                excerpt: 'How yoga helps improve physical and mental health.',
+                content: `<h2>Physical Benefits</h2><p>Increased flexibility, improved balance, and stronger muscles.</p>
+<h2>Mental Benefits</h2><p>Reduced stress, improved focus, and increased self-awareness.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800',
                 status: 'published',
                 readingTime: 5,
             },
@@ -424,6 +554,32 @@ async function seed() {
                 coverImage: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=800',
                 status: 'published',
                 readingTime: 4,
+            },
+            {
+                title: 'Benefits of Leafy Green Vegetables',
+                slug: 'leafy-greens-benefits-en',
+                language: 'en',
+                category: enCategories[5]._id,
+                tags: ['Vegetables', 'Vitamins', 'Health'],
+                excerpt: 'Why you should eat leafy greens daily and which types are best.',
+                content: `<h2>Nutritional Value</h2><p>Rich in vitamins K, A, C, minerals, and fiber.</p>
+<h2>Best Types</h2><ul><li>Spinach</li><li>Kale</li><li>Arugula</li></ul>`,
+                coverImage: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800',
+                status: 'published',
+                readingTime: 5,
+            },
+            {
+                title: 'Proteins: Types and Benefits',
+                slug: 'protein-benefits-en',
+                language: 'en',
+                category: enCategories[5]._id,
+                tags: ['Protein', 'Nutrition', 'Muscles'],
+                excerpt: 'Your comprehensive guide to proteins: sources, benefits, and daily requirements.',
+                content: `<h2>Protein Benefits</h2><p>Build muscles, boost immunity, and feel fuller longer.</p>
+<h2>Protein Sources</h2><p>Animal: meats, chicken, fish. Plant: legumes, nuts.</p>`,
+                coverImage: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=800',
+                status: 'published',
+                readingTime: 6,
             },
         ];
 
